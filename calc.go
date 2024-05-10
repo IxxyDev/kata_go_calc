@@ -1,5 +1,32 @@
 package main
 
+import (
+	"fmt"
+	"strings"
+)
+
+func main() {
+	var expression string
+	fmt.Print("Введите выражение (например, 1 + 2): ")
+	fmt.Scanln(&expression)
+
+	expression_arr := strings.Split(expression, " ")
+	if len(expression_arr) != 3 {
+		print("Не является математической операцией")
+	}
+
+	var isRoman bool
+	var a, b int
+	var operator = expression_arr[1]
+
+	if a < 1 || a > 10 || b < 1 || b > 10 {
+		panic("Должны быть числа от 1 до 10")
+	}
+
+	result := calc(a, b, operator)
+
+}
+
 func romanToInt(romanNumber string) int {
 	result := 0
 	romanToIntMap := map[rune]int{
@@ -32,6 +59,6 @@ func calc(a, b int, operator string) int {
 	case "/":
 		return a / b
 	default:
-		panic("Unknown operator")
+		panic("Неизвестный оператор, доступны операторы: + – * /")
 	}
 }
