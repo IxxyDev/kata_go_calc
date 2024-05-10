@@ -30,6 +30,7 @@ func main() {
 		isRomanCalculation = true
 		a = romanToInt(expressionArr[0])
 		b = romanToInt(expressionArr[2])
+		println(a, b)
 	} else if !isValidRoman(expressionArr[0]) && !isValidRoman(expressionArr[2]) {
 		var err error
 		a, err = strconv.Atoi(expressionArr[0])
@@ -99,14 +100,14 @@ func intToRoman(number int) string {
 	result := ""
 
 	for i := 0; i < len(arabicNums); i++ {
-		for arabicNums[i] > number {
-			i++
-			if i >= len(arabicNums) {
-				break
-			}
+		for number >= arabicNums[i] {
+			result += romanNums[i]
+			number -= arabicNums[i]
 		}
-		result += romanNums[i]
-		number -= arabicNums[i]
+	}
+	// Тут хак, не придумалось изящнее
+	if number == 1 {
+		result += "I"
 	}
 
 	return result
