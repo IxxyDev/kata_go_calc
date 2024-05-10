@@ -48,6 +48,25 @@ func romanToInt(romanNumber string) int {
 	return result
 }
 
+func intToRoman(number int) string {
+	arabicNums := []int{10, 9, 5, 4, 1}
+	romanNums := []string{"X", "IX", "V", "IV", "I"}
+	result := ""
+
+	for i := 0; i < len(arabicNums); i++ {
+		for arabicNums[i] > number {
+			i++
+			if i >= len(arabicNums) {
+				break
+			}
+		}
+		result += romanNums[i]
+		number -= arabicNums[i]
+	}
+
+	return result
+}
+
 func calc(a, b int, operator string) int {
 	switch operator {
 	case "+":
