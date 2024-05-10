@@ -18,6 +18,9 @@ func main() {
 		panic("Не является математической операцией")
 	}
 
+	// После ввода туда еще и перевод строки попадает...
+	expressionArr[2] = strings.TrimRight(expressionArr[2], "\n")
+
 	var isRomanCalculation bool
 	var a, b int
 	var operator = expressionArr[1]
@@ -51,8 +54,10 @@ func main() {
 		if result < 1 {
 			panic("Для римских чисел результат должен быть положительным")
 		}
+		fmt.Println("Ответ:")
 		fmt.Println(intToRoman(result))
 	} else {
+		fmt.Println("Ответ:")
 		fmt.Println(result)
 	}
 
@@ -81,11 +86,10 @@ func romanToInt(romanNumber string) int {
 
 func isValidRoman(romanNumber string) bool {
 	for _, char := range romanNumber {
-		if char == 'I' || char == 'V' || char == 'X' {
+		if char != 'I' || char != 'V' || char != 'X' {
 			return false
 		}
 	}
-
 	return true
 }
 
