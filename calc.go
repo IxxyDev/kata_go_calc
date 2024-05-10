@@ -17,4 +17,21 @@ func romanToInt(romanNumber string) int {
 			result += current
 		}
 	}
+
+	return result
+}
+
+func calc(a, b int, operator string) int {
+	switch operator {
+	case "+":
+		return a + b
+	case "-":
+		return a - b
+	case "*":
+		return a * b
+	case "/":
+		return a / b
+	default:
+		panic("Unknown operator")
+	}
 }
