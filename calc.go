@@ -48,6 +48,16 @@ func romanToInt(romanNumber string) int {
 	return result
 }
 
+func isValidRoman(romanNumber string) bool {
+	for _, char := range romanNumber {
+		if char == 'I' || char == 'V' || char == 'X' {
+			return false
+		}
+	}
+
+	return true
+}
+
 func intToRoman(number int) string {
 	arabicNums := []int{10, 9, 5, 4, 1}
 	romanNums := []string{"X", "IX", "V", "IV", "I"}
