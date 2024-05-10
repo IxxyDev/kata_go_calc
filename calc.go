@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strconv"
 	"strings"
 )
 
@@ -10,20 +11,48 @@ func main() {
 	fmt.Print("Введите выражение (например, 1 + 2): ")
 	fmt.Scanln(&expression)
 
-	expression_arr := strings.Split(expression, " ")
-	if len(expression_arr) != 3 {
+	expressionArr := strings.Split(expression, " ")
+	if len(expressionArr) != 3 {
 		print("Не является математической операцией")
 	}
 
-	var isRoman bool
+	var isRomanCalculation bool
 	var a, b int
-	var operator = expression_arr[1]
+	var operator = expressionArr[1]
+
+	// Переведем в арабские, если римские, но запомним, что работаем с римскими для положительного результата
+	if isValidRoman(expressionArr[0]) && isValidRoman(expressionArr[2]) {
+		isRomanCalculation = true
+		a = romanToInt(expressionArr[0])
+		b = romanToInt(expressionArr[2])
+	} else if !isValidRoman(expressionArr[0]) && !isValidRoman(expressionArr[2]) {
+		var err error
+		a, err = strconv.Atoi(expressionArr[0])
+		if err != nil {
+			panic("Неправильный формат числа")
+		}
+		b, err = strconv.Atoi(expressionArr[2])
+		if err != nil {
+			panic("Неправильный формат числа")
+		}
+	} else {
+		panic("Ошибка! Можно считать числа только из одной системы счисления")
+	}
 
 	if a < 1 || a > 10 || b < 1 || b > 10 {
 		panic("Должны быть числа от 1 до 10")
 	}
 
 	result := calc(a, b, operator)
+
+	if isRomanCalculation {
+		if result < 1 {
+			panic("Для римских чисел результат должен быть положительным")
+		}
+		fmt.Println(intToRoman(result))
+	} else {
+		fmt.Println(result)
+	}
 
 }
 
