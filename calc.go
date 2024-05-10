@@ -1,19 +1,21 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
+	"os"
 	"strconv"
 	"strings"
 )
 
 func main() {
-	var expression string
-	fmt.Print("Введите выражение (например, 1 + 2): ")
-	fmt.Scanln(&expression)
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Println("Введите выражение (например, 1 + 2)")
+	expression, _ := reader.ReadString('\n')
 
 	expressionArr := strings.Split(expression, " ")
 	if len(expressionArr) != 3 {
-		print("Не является математической операцией")
+		panic("Не является математической операцией")
 	}
 
 	var isRomanCalculation bool
