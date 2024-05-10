@@ -72,8 +72,7 @@ func romanToInt(romanNumber string) int {
 	}
 
 	for i := 0; i < len(romanNumber); i++ {
-		current := int(romanNumber[rune(romanNumber[i])])
-
+		current := romanToIntMap[rune(romanNumber[i])]
 		if i+1 < len(romanNumber) && romanToIntMap[rune(romanNumber[i+1])] > current {
 			result -= current
 		} else {
@@ -86,7 +85,8 @@ func romanToInt(romanNumber string) int {
 
 func isValidRoman(romanNumber string) bool {
 	for _, char := range romanNumber {
-		if char != 'I' || char != 'V' || char != 'X' {
+		// Тут оказался код Unicode, а не символ, нужно привести
+		if rune(char) != 'I' && rune(char) != 'V' && rune(char) != 'X' {
 			return false
 		}
 	}
