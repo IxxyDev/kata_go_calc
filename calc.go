@@ -14,8 +14,10 @@ func main() {
 	expression, _ := reader.ReadString('\n')
 
 	expressionArr := strings.Split(expression, " ")
-	if len(expressionArr) != 3 {
+	if len(expressionArr) < 3 {
 		panic("Не является математической операцией")
+	} else if len(expressionArr) > 3 {
+		panic("Неподходящий формат операции, можно использовать только 2 операнда")
 	}
 
 	// После ввода туда еще и перевод строки попадает...
@@ -30,7 +32,6 @@ func main() {
 		isRomanCalculation = true
 		a = romanToInt(expressionArr[0])
 		b = romanToInt(expressionArr[2])
-		println(a, b)
 	} else if !isValidRoman(expressionArr[0]) && !isValidRoman(expressionArr[2]) {
 		var err error
 		a, err = strconv.Atoi(expressionArr[0])
