@@ -12,16 +12,16 @@ func main() {
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Println("Введите выражение (например, 1 + 2)")
 	expression, _ := reader.ReadString('\n')
+	expression = strings.TrimRight(expression, "\n")
+	expression = strings.ReplaceAll(expression, " ", "")
 
-	expressionArr := strings.Split(expression, " ")
+	expressionArr := splitExpression(expression)
+
 	if len(expressionArr) < 3 {
 		panic("Не является математической операцией")
 	} else if len(expressionArr) > 3 {
 		panic("Неподходящий формат операции, можно использовать только 2 операнда")
 	}
-
-	// После ввода туда еще и перевод строки попадает...
-	expressionArr[2] = strings.TrimRight(expressionArr[2], "\n")
 
 	var isRomanCalculation bool
 	var a, b int
@@ -96,21 +96,15 @@ func isValidRoman(romanNumber string) bool {
 }
 
 func intToRoman(number int) string {
-	arabicNums := []int{10, 9, 5, 4, 1}
-	romanNums := []string{"X", "IX", "V", "IV", "I"}
+	arabicNums := []int{100, 90, 50, 40, 10, 9, 5, 4, 1}
+	romanNums := []string{"C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"}
 	result := ""
-
 	for i := 0; i < len(arabicNums); i++ {
 		for number >= arabicNums[i] {
 			result += romanNums[i]
 			number -= arabicNums[i]
 		}
 	}
-	// Тут хак, не придумалось изящнее
-	if number == 1 {
-		result += "I"
-	}
-
 	return result
 }
 
@@ -127,4 +121,27 @@ func calc(a, b int, operator string) int {
 	default:
 		panic("Неизвестный оператор, доступны операторы: + – * /")
 	}
+}
+
+func splitExpression(expression string) []string {
+	expression = strings.TrimSpace(expression)
+	expression = strings.ReplaceAll(expression, " ", "")
+
+	// Разделяем строку по оператору
+	var operator string
+	var operands []string
+
+	for _, char := range expression {
+		if strings.ContainsRune("+-*/", char) {
+			operator = string(char)
+			operands = strings.Split(expression, operator)
+			break
+		}
+	}
+
+	if operator == "" || len(operands) != 2 {
+		panic("Не является математической операцией")
+	}
+
+	return []string{operands[0], operator, operands[1]}
 }
